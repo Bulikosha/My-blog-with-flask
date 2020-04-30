@@ -1,6 +1,13 @@
 from flask import Flask, render_template, url_for
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = "2bdeb612567270f4a9082a62346ef5b0"
+"""We can generate secret key with Python by running Python interpreter and type:
+		import secrets
+		secrets.token_hex(16)
+Then copy generated string"""
 
 posts = [
 	{
@@ -17,6 +24,7 @@ posts = [
 ]
 
 @app.route("/")
+@app.route("/home")
 def home():
 	return render_template('home.html', posts=posts)
 
@@ -24,6 +32,15 @@ def home():
 def about():
 	return render_template('about.html')
 
+@app.route("/register")
+def register():
+	form = RegistrationForm()
+	return render_template('register.html', title='Register', form=form)
+
+@app.route("/login")
+def login():
+	form = LoginForm()
+	return render_template('login.html', title='Login', form=form)
 
 
 
